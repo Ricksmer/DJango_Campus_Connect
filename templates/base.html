@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title>{% block title %}CampusConnect{% endblock %}</title></head>
+
+<body>
+    <nav>
+        {% if user.is_authenticated %}
+        Hi, {{ user.username }}!
+        <form method='post' action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type='submit'>Log out</button>
+        </form>
+        {% else %}
+        <a href="{% url 'login' %}">Log in</a>
+        <a href="{% url 'signup' %}">Sign Up</a>
+        {% endif %}
+    </nav>
+    <header>{% block header %}{% endblock %}</header>
+    <main> {% block content %}{% endblock %}</main>
+    <footer>{% block footer %}&copy; 2026 CampusConnect. All rights reserved.{% endblock %}</footer>
+</body>
+</html>
