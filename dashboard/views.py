@@ -9,7 +9,7 @@ class AdminPanelView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
     def test_func(self):
         user = self.request.user
-        return user.role == CustomUser.Roles.ADMIN
+        return user.role == CustomUser.Role.ADMIN
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard/home.html'
@@ -17,5 +17,5 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['member_count'] = CustomUser.objects.count()
-        context['is_admin'] = (self.request.user.role == CustomUser.Roles.ADMIN)
+        context['is_admin'] = (self.request.user.role == CustomUser.Role.ADMIN)
         return context
