@@ -1,22 +1,32 @@
 <!DOCTYPE html>
-<html>
-<head><title>{% block title %}CampusConnect{% endblock %}</title></head>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}CampusConnect{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
 
 <body>
-    <nav>
-        {% if user.is_authenticated %}
-        Hi, {{ user.username }}!
-        <form method='post' action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type='submit'>Log out</button>
-        </form>
-        {% else %}
-        <a href="{% url 'login' %}">Log in</a>
-        <a href="{% url 'signup' %}">Sign Up</a>
-        {% endif %}
-    </nav>
-    <header>{% block header %}{% endblock %}</header>
-    <main> {% block content %}{% endblock %}</main>
-    <footer>{% block footer %}&copy; 2026 CampusConnect. All rights reserved.{% endblock %}</footer>
+    <div class="site-shell">
+        <nav class="site-nav">
+            <a class="brand" href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}{% url 'login' %}{% endif %}">CampusConnect</a>
+            <div class="nav-links">
+                {% if user.is_authenticated %}
+                    <span class="nav-user">{{ user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button class="nav-logout" type="submit">Log out</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Log in</a>
+                    <a href="{% url 'signup' %}">Sign up</a>
+                {% endif %}
+            </div>
+        </nav>
+        <main class="content">{% block content %}{% endblock %}</main>
+        <footer class="site-footer">{% block footer %}&copy; 2026 CampusConnect. All rights reserved.{% endblock %}</footer>
+    </div>
 </body>
 </html>

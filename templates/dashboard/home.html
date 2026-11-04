@@ -1,15 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <p class="alert" role="alert">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
     <h2>Welcome, {{ user.first_name|default:user.username }}!</h2>
-    <ul>
+    <ul class="profile-summary">
         <li>Role: {{ user.get_role_display }}</li>
         <li>Course: {{ user.course|default:'Not set' }}</li>
         <li>Members: {{ member_count }}</li>
         <li>Last login: {{ user.last_login|date:'M d, Y' }}</li>
     </ul>
 
+    <p><a class="button-link" href="{% url 'update-profile' %}">Update Profile</a></p>
+
     {% if is_admin %}
-        <p><a href="{% url 'admin-panel' %}">Open admin panel</a></p>
+        <p><a class="button-link" href="{% url 'admin-panel' %}">Open admin panel</a></p>
     {% endif %}
 {% endblock %}
